@@ -1,0 +1,2694 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A package that provides an interface for downloading and processing the data of the Marktstammdatenregister (MaStR)">
+      
+      
+      
+      
+        <link rel="prev" href="../basic/">
+      
+      
+        <link rel="next" href="../../development/contributing_mirror/">
+      
+      <link rel="icon" href="../../images/OpenEnergyFamily_Logo_OpenMaStR_no_name_grey.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Advanced Usage of the MaStR SOAP-API - open-mastr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#advanced-functions-to-use-the-mastr-soap-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="open-mastr" class="md-header__button md-logo" aria-label="open-mastr" data-md-component="logo">
+      
+  <img src="../../images/OpenEnergyFamily_Logo_OpenMaStR_no_name_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            open-mastr
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Advanced Usage of the MaStR SOAP-API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OpenEnergyPlatform/open-MaStR" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../getting_started/" class="md-tabs__link">
+      Getting Started
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../dataset/" class="md-tabs__link">
+      Dataset
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../advanced/welcome/" class="md-tabs__link">
+        Advanced
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../basic/" class="md-tabs__link md-tabs__link--active">
+        Reference
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../development/contributing_mirror/" class="md-tabs__link">
+        Development
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="open-mastr" class="md-nav__button md-logo" aria-label="open-mastr" data-md-component="logo">
+      
+  <img src="../../images/OpenEnergyFamily_Logo_OpenMaStR_no_name_white.png" alt="logo">
+
+    </a>
+    open-mastr
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OpenEnergyPlatform/open-MaStR" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dataset/" class="md-nav__link">
+        Dataset
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Advanced
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/welcome/" class="md-nav__link">
+        
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/bulk_download/" class="md-nav__link">
+        Bulk Download
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/api_download/" class="md-nav__link">
+        SOAP API Download
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic/" class="md-nav__link">
+        Basic Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Advanced Usage of the MaStR SOAP-API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Advanced Usage of the MaStR SOAP-API
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRAPI" class="md-nav__link">
+    MaStRAPI
+  </a>
+  
+    <nav class="md-nav" aria-label="MaStRAPI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRAPI.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload" class="md-nav__link">
+    MaStRDownload
+  </a>
+  
+    <nav class="md-nav" aria-label="MaStRDownload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.additional_data" class="md-nav__link">
+    additional_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.basic_location_data" class="md-nav__link">
+    basic_location_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.basic_unit_data" class="md-nav__link">
+    basic_unit_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.download_power_plants" class="md-nav__link">
+    download_power_plants()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.eeg_unit_data" class="md-nav__link">
+    eeg_unit_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.extended_unit_data" class="md-nav__link">
+    extended_unit_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.kwk_unit_data" class="md-nav__link">
+    kwk_unit_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.location_data" class="md-nav__link">
+    location_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.download.MaStRDownload.permit_unit_data" class="md-nav__link">
+    permit_unit_data()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror" class="md-nav__link">
+    MaStRMirror
+  </a>
+  
+    <nav class="md-nav" aria-label="MaStRMirror">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.backfill_basic" class="md-nav__link">
+    backfill_basic()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.backfill_locations_basic" class="md-nav__link">
+    backfill_locations_basic()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.dump" class="md-nav__link">
+    dump()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.restore" class="md-nav__link">
+    restore()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.retrieve_additional_data" class="md-nav__link">
+    retrieve_additional_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open_mastr.soap_api.mirror.MaStRMirror.retrieve_additional_location_data" class="md-nav__link">
+    retrieve_additional_location_data()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Development
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Development
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing_mirror/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/release_procedure_mirror/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/changelog_mirror/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="advanced-functions-to-use-the-mastr-soap-api">Advanced functions to use the MaStR SOAP-API</h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="open_mastr.soap_api.download.MaStRAPI" class="doc doc-heading">
+          <code>open_mastr.soap_api.download.MaStRAPI</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents first">
+          <p class="doc doc-class-bases">
+            Bases: <code>object</code></p>
+
+  
+      <p>Access the Marktstammdatenregister (MaStR) SOAP API via a Python wrapper</p>
+<p>Read about <a href="../../advanced/api_download/#MaStR account and credentials">MaStR account and credentials</a>
+how to create a user account and a role including a token to access the
+MaStR SOAP API.</p>
+<p>Create an <code>MaStRAPI</code> instance with your role credentials</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="n">mastr_api</span> <span class="o">=</span> <span class="n">MaStRAPI</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        <span class="n">user</span><span class="o">=</span><span class="s2">&quot;SOM123456789012&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="n">key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="n">koo5eixeiQuoi</span><span class="s1">&#39;w8deighai8ahsh1Ha3eib3coqu7ceeg</span><span class="si">%i</span><span class="s1">es...&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   <span class="p">)</span>
+</code></pre></div>
+<p>Alternatively, leave <code>user</code> and <code>key</code> empty if user and token are accessible via
+<code>credentials.cfg</code>. How to configure this is described
+<a href="../../advanced/api_download/#MaStR account and credentials">here</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>    <span class="n">mastr_api</span> <span class="o">=</span> <span class="n">MaStRAPI</span><span class="p">()</span>
+</code></pre></div>
+<p>Now, you can use the MaStR API instance to call <a href="https://www.marktstammdatenregister.de/MaStRHilfe/files/webdienst/Funktionen_MaStR_Webdienste_V1.2.39.html">pre-defined SOAP API
+queries</a>
+via the class' methods.
+For example, get a list of units limited to two entries.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>   <span class="n">mastr_api</span><span class="o">.</span><span class="n">GetListeAlleEinheiten</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As the example shows, you don't have to pass credentials for calling
+wrapped SOAP queries. This is handled internally.</p>
+</div>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRAPI.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>user</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>MaStR-ID (MaStR-Nummer) for the account that was created on
+https://www.marktstammdatenregister.de
+Typical format: SOM123456789012</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>key</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Access token of a role (Benutzerrolle). Might look like:
+"koo5eixeiQuoi'w8deighai8ahsh1Ha3eib3coqu7ceeg%ies..."</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="open_mastr.soap_api.download.MaStRDownload" class="doc doc-heading">
+          <code>open_mastr.soap_api.download.MaStRDownload</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents first">
+
+  
+      <p>Use the higher level interface for bulk download</p>
+<p><code>MaStRDownload</code> builds on top of [<code>MaStRAPI</code>][open_mastr.soap_api.MaStRAPI] and provides
+an interface for easier downloading.
+Use methods documented below to retrieve specific data. On the example of
+data for nuclear power plants, this looks like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    <span class="kn">from</span> <span class="nn">open_mastr.soap_api.download</span> <span class="kn">import</span> <span class="n">MaStRDownload</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">mastr_dl</span> <span class="o">=</span> <span class="n">MaStRDownload</span><span class="p">()</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;nuclear&quot;</span><span class="p">,</span> <span class="s2">&quot;hydro&quot;</span><span class="p">,</span> <span class="s2">&quot;wind&quot;</span><span class="p">,</span> <span class="s2">&quot;solar&quot;</span><span class="p">,</span> <span class="s2">&quot;biomass&quot;</span><span class="p">,</span> <span class="s2">&quot;combustion&quot;</span><span class="p">,</span> <span class="s2">&quot;gsgk&quot;</span><span class="p">]:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="n">power_plants</span> <span class="o">=</span> <span class="n">mastr_dl</span><span class="o">.</span><span class="n">download_power_plants</span><span class="p">(</span><span class="n">tech</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">power_plants</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Be careful with increasing <code>limit</code>. Typically, your account allows only for 10,000 API
+request per day.</p>
+</div>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">parallel_processes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>parallel_processes</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Specify number of parallel unit data download, respectively
+the number of processes you want to use for downloading.
+For single-process download (avoiding the use of python
+multiprocessing package) choose False.
+Defaults to number of cores (including hyperthreading).</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>int or bool</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.additional_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">additional_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit_ids</span><span class="p">,</span> <span class="n">data_fcn</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Retrieve addtional informations about units.</p>
+<p>Extended information on units is available. Depending on type, additional data from EEG
+and KWK subsidy program are available.
+Furthermore, for some units, data about permit is retrievable.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>data, see :meth:<code>MaStRDownload.download_power_plants</code></p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>unit_ids</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Unit identifier for additional data</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>list</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data_fcn</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Name of method from :class:<code>MaStRDownload</code> to be used for querying additional data.
+Choose from</p>
+<ul>
+<li>"extended_unit_data" (:meth:<code>~.extended_unit_data</code>): Extended information
+  (i.e. technical, location)
+  about a unit. The exact set of information depends on the data type.</li>
+<li>"eeg_unit_data" (:meth:<code>~.eeg_unit_data</code>): Unit Information from
+  EEG unit registry. The exact
+  set of information depends on the data.</li>
+<li>"kwk_unit_data" (:meth:<code>~.kwk_unit_data</code>): Unit information from KWK unit registry.</li>
+<li>"permit_unit_data" (:meth:<code>~.permit_unit_data</code>): Information about the permit
+  process of a unit.</li>
+</ul>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>timeout</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Timeout limit for data retrieval for each unit when using multiprocessing. Defaults to 10.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>10</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple of list of dict and tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Returns additional data in dictionaries that are packed into a list.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    <span class="k">return</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        <span class="p">[</span><span class="n">additional_unit_data_dict1</span><span class="p">,</span> <span class="n">additional_unit_data_dict2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SME930865355925&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">),</span> <span class="o">...</span><span class="p">]</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="p">)</span>
+</code></pre></div></p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.basic_location_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">basic_location_data</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">date_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Retrieve basic location data in chunks</p>
+<p>Retrieves data for all types of locations at once using
+<code>MaStRAPI.GetListeAlleLokationen</code>.
+Locations include</p>
+<ul>
+<li>Electricity generation location (SEL - Stromerzeugungslokation)</li>
+<li>Electricity consumption location (SVL - Stromverbrauchslokation)</li>
+<li>Gas generation location (GEL - Gaserzeugungslokation)</li>
+<li>Gas consumption location (GVL - Gasverbrauchslokation)</li>
+</ul>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of locations to download.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Mind the daily request limit for your MaStR account, usually 10,000 per day.</p>
+</div>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>2000</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>date_from</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>If specified, only locations with latest change date newer than this are queried.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_retries</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of retries for each chunk in case of errors with the connection to
+the server.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>3</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>YIELDS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-yields-annotation">
+                  <code>generator of generators</code>
+              </span>
+          </td>
+          <td class="doc-yields-details">
+            <div class="doc-md-description">
+              <p>For each chunk a separate generator is returned all wrapped into another generator.
+Access with</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    <span class="n">chunks</span> <span class="o">=</span> <span class="n">mastr_dl</span><span class="o">.</span><span class="n">basic_location_data</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        <span class="n">date_from</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">limit</span><span class="o">=</span><span class="mi">2010</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>            <span class="nb">print</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="c1"># prints out one dict per location one after another</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.basic_unit_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">basic_unit_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">date_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download basic unit information for one data type.</p>
+<p>Retrieves basic information about units. The number of unit in
+bound to <code>limit</code>.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Technology data is requested for. See :meth:<code>MaStRDownload.download_power_plants</code>
+for options.
+Data is retrieved using <code>MaStRAPI.GetGefilterteListeStromErzeuger</code>.
+If not given, it defaults to <code>None</code>. This implies data for all available
+technologies is retrieved using the web service function
+<code>MaStRAPI.GetListeAlleEinheiten</code>.</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of units to download.
+If not provided, data for all units is downloaded.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Mind the daily request limit for your MaStR account.</p>
+</div>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>int</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>2000</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>date_from</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>If specified, only units with latest change date newer than this are queried.
+Defaults to <code>None</code>.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>max_retries</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of retries in case of errors with the connection to the server.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>3</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>YIELDS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-yields-annotation">
+                  <code>list of dict</code>
+              </span>
+          </td>
+          <td class="doc-yields-details">
+            <div class="doc-md-description">
+              <p>A generator of dicts is returned with each dictionary containing
+information about one unit.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.download_power_plants" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">download_power_plants</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download power plant unit data for one data type.</p>
+<p>Based on list with basic information about each unit, subsequently additional
+data is retrieved:</p>
+<ul>
+<li>Extended unit data</li>
+<li>EEG data is collected during support of renewable energy installations
+  by the Erneuerbare-Energie-Gesetz.</li>
+<li>KWK data is collected to the support program Kraft-Waerme-Kopplung</li>
+<li>Permit data is available for some installations (German: Genehmigungsdaten)</li>
+</ul>
+<p>Data is stored in CSV file format in <code>~/open-MaStR/data/&lt;version&gt;/</code> by
+default.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Retrieve unit data for one power system unit. Power plants are
+grouped by following technologies:</p>
+<ul>
+<li>'nuclear'</li>
+<li>'hydro'</li>
+<li>'solar'</li>
+<li>'wind'</li>
+<li>'biomass'</li>
+<li>'combustion'</li>
+<li>'gsgk'</li>
+<li>'storage'</li>
+</ul>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of units to be downloaded.</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>int</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code><span title="pandas">pd</span>.<span title="pandas.DataFrame">DataFrame</span></code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Joined data tables.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.eeg_unit_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">eeg_unit_data</span><span class="p">(</span><span class="n">unit_specs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download EEG (Erneuerbare Energien Gesetz) data for a unit.</p>
+<p>Additional data collected during a subsidy program for supporting
+installations of renewable energy power plants.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>unit_specs</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p><em>EegMastrnummer</em> and data type as tuple that for example looks like</p>
+<p>.. code-block:: python</p>
+<p>tuple("EEG961554380393", "hydro")</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>tuple</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>dict</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>EEG details about unit, if download successful,
+otherwise empty dict</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p><em>EegMastrNummer</em> and message the explains why a download failed. Format</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;EEG961554380393&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.extended_unit_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">extended_unit_data</span><span class="p">(</span><span class="n">unit_specs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download extended data for a unit.</p>
+<p>This extended unit information is provided separately.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>unit_specs</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p><em>EinheitMastrNummer</em> and data type as tuple that for example looks like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SME930865355925&quot;</span><span class="p">,</span> <span class="s2">&quot;hydro&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>tuple</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>dict</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Extended information about unit, if download successful,
+otherwise empty dict</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p><em>EinheitMastrNummer</em> and message the explains why a download failed. Format</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SME930865355925&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.kwk_unit_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">kwk_unit_data</span><span class="p">(</span><span class="n">unit_specs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download KWK (german: Kraft-Wärme-Kopplung, english: Combined Heat and Power, CHP)
+data for a unit.</p>
+<p>Additional data collected during a subsidy program for supporting
+combined heat power plants.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>unit_specs</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p><em>KwkMastrnummer</em> and data type as tuple that for example looks like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;KWK910493229164&quot;</span><span class="p">,</span> <span class="s2">&quot;biomass&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>tuple</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>dict</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>KWK details about unit, if download successful,
+otherwise empty dict</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p><em>KwkMastrNummer</em> and message the explains why a download failed. Format</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;KWK910493229164&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.location_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">location_data</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download extended data for a location</p>
+<p>Allows to download additional data for different location types, see <em>specs</em>.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>specs</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Location <em>Mastrnummer</em> and data_name as tuple that for example looks like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SEL927688371072&quot;</span><span class="p">,</span> <span class="s2">&quot;location_elec_generation&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>tuple</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>dict</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Detailed information about a location, if download successful,
+otherwise empty dict</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Location <em>MastrNummer</em> and message the explains why a download failed. Format</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SEL927688371072&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.download.MaStRDownload.permit_unit_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">permit_unit_data</span><span class="p">(</span><span class="n">unit_specs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download permit data for a unit.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>unit_specs</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p><em>GenMastrnummer</em> and data type as tuple that for example looks like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;SGE952474728808&quot;</span><span class="p">,</span> <span class="s2">&quot;biomass&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>tuple</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>dict</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>Permit details about unit, if download successful,
+otherwise empty dict</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code>tuple</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p><em>GenMastrNummer</em> and message the explains why a download failed. Format</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="nb">tuple</span><span class="p">(</span><span class="s2">&quot;GEN952474728808&quot;</span><span class="p">,</span> <span class="s2">&quot;Reason for failing dowload&quot;</span><span class="p">)</span>
+</code></pre></div>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="open_mastr.soap_api.mirror.MaStRMirror" class="doc doc-heading">
+          <code>open_mastr.soap_api.mirror.MaStRMirror</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents first">
+
+  
+      <p>Mirror the Marktstammdatenregister database and keep it up-to-date.</p>
+<p>A PostgreSQL database is used to mirror the MaStR database. It builds
+on functionality for bulk data download
+provided by <a class="autorefs autorefs-internal" href="#open_mastr.soap_api.download.MaStRDownload"><code>MaStRDownload</code></a>.</p>
+<p>A rough overview is given by the following schema on the example of wind power units.
+<img align="center" alt="Schema on the example of downloading wind power units using the API" loading="lazy" src="../../images/MaStR_Mirror.svg" width="70%" /></p>
+<p>Initially, basic unit data gets backfilled with <code>~.backfill_basic</code>
+(downloads basic unit data for 2,000
+units of type 'solar').</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   <span class="kn">from</span> <span class="nn">open_mastr.soap_api.prototype_mastr_reflected</span> <span class="kn">import</span> <span class="n">MaStRMirror</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   <span class="n">mastr_mirror</span> <span class="o">=</span> <span class="n">MaStRMirror</span><span class="p">()</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   <span class="n">mastr_mirror</span><span class="o">.</span><span class="n">backfill_basic</span><span class="p">(</span><span class="s2">&quot;solar&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</code></pre></div>
+Based on this, requests for
+additional data are created. This happens during backfilling basic data.
+But it is also possible to (re-)create
+requests for remaining additional data using
+[<code>MaStRMirror.create_additional_data_requests</code>][open_mastr.soap_api.mirror.MaStRMirror.create_additional_data_requests].</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   <span class="n">mastr_mirror</span><span class="o">.</span><span class="n">create_additional_data_requests</span><span class="p">(</span><span class="s2">&quot;solar&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Additional unit data, in the case of wind power this is extended data,
+EEG data and permit data, can be
+retrieved subsequently by <code>~.retrieve_additional_data</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>    <span class="n">mastr_mirror</span><span class="o">.</span><span class="n">retrieve_additional_data</span><span class="p">(</span><span class="s2">&quot;solar&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;unit_data&quot;</span><span class="p">])</span>
+</code></pre></div>
+<p>The data can be joined to one table for each data type and exported to
+CSV files using [<code>MaStRMirror.to_csv</code>][open_mastr.soap_api.mirror.MaStRMirror.to_csv].</p>
+<p>Also consider to use <code>~.dump</code> and <code>~.restore</code> for specific purposes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature was built before the bulk download was offered at marktstammdatenregister.de.
+It can still be used to compare the two datasets received from the API and the bulk download.</p>
+</div>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">restore_dump</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parallel_processes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>engine</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>database engine</p>
+            </div>
+            <p>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>restore_dump</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Save path of SQL dump file including filename.
+The database is restored from the SQL dump.
+Defaults to <code>None</code> which means nothing gets restored.
+Should be used in combination with <code>empty_schema=True</code>.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>parallel_processes</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Number of parallel processes used to download additional data.
+Defaults to <code>None</code>.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.backfill_basic" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">backfill_basic</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">8</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Backfill basic unit data.</p>
+<p>Fill database table 'basic_units' with data. It allows specification
+of which data should be retrieved via
+the described parameter options.</p>
+<p>Under the hood, <a class="autorefs autorefs-internal" href="#open_mastr.soap_api.download.MaStRDownload.basic_unit_data"><code>MaStRDownload.basic_unit_data</code></a> is used.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Specify data types for which data should be backfilled.</p>
+<ul>
+<li>['solar']: Backfill data for a single data type.</li>
+<li>['solar', 'wind'] (<code>list</code>):  Backfill data for multiple technologies given in a list.</li>
+</ul>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>date</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Specify backfill date from which on data is retrieved</p>
+<p>Only data with modification time stamp greater that <code>date</code> is retrieved.</p>
+<ul>
+<li><code>datetime.datetime(2020, 11, 27)</code>: Retrieve data which is newer
+than this time stamp</li>
+<li>'latest': Retrieve data which is newer than the newest data
+already in the table.
+  It is aware of a different 'latest date' for each data.
+  Hence, it works in combination with
+  <code>data=None</code> and <code>data=["wind", "solar"]</code> for example.</li>
+</ul>
+<p>!!! warning</p>
+<div class="highlight"><pre><span></span><code> Don&#39;t use &#39;latest&#39; in combination with `limit`. This might
+ lead to unexpected results.
+</code></pre></div>
+<ul>
+<li><code>None</code>: Complete backfill</li>
+</ul>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of units.
+Defaults to the large number of 10**8 which means
+all available data is queried. Use with care!</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>10 ** 8</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.backfill_locations_basic" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">backfill_locations_basic</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">7</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delete_additional_data_requests</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Backfill basic location data.</p>
+<p>Fill database table 'locations_basic' with data. It allows specification
+of which data should be retrieved via
+the described parameter options.</p>
+<p>Under the hood, <a class="autorefs autorefs-internal" href="#open_mastr.soap_api.download.MaStRDownload.basic_location_data"><code>MaStRDownload.basic_location_data</code></a>
+is used.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>date</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Specify backfill date from which on data is retrieved</p>
+<p>Only data with modification time stamp greater that <code>date</code> is retrieved.</p>
+<ul>
+<li><code>datetime.datetime(2020, 11, 27)</code>: Retrieve data which is newer than
+this time stamp</li>
+<li>
+<p>'latest': Retrieve data which is newer than the newest data already in the table.
+  !!! warning</p>
+<p>Don't use 'latest' in combination with <code>limit</code>. This might lead to
+ unexpected results.
+* <code>None</code>: Complete backfill</p>
+</li>
+</ul>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Maximum number of locations to download.
+Defaults to <code>None</code> which means no limit is set and all available data is queried.
+Use with care!</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>10 ** 7</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>delete_additional_data_requests</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Useful to speed up download of data. Ignores existence of already created requests
+for additional data and
+skips deletion these.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>True</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.dump" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">dump</span><span class="p">(</span><span class="n">dumpfile</span><span class="o">=</span><span class="s1">&#39;open-mastr-continuous-update.backup&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Dump MaStR database.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>dumpfile</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Save path for dump including filename. When only a filename is given,
+the dump is saved to CWD.</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str or path - like</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>&#39;open-mastr-continuous-update.backup&#39;</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.restore" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">restore</span><span class="p">(</span><span class="n">dumpfile</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Restore the MaStR database from an SQL dump.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>dumpfile</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Save path for dump including filename. When only a filename is given, the
+dump is restored from CWD.</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code>str or path - like</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+      <div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If tables that are restored from the dump contain data, restore doesn't work!</p>
+</div>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.retrieve_additional_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">retrieve_additional_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">8</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Retrieve additional unit data</p>
+<p>Execute additional data requests stored in
+<code>open_mastr.soap_api.orm.AdditionalDataRequested</code>.
+See also docs of <a class="autorefs autorefs-internal" href="#open_mastr.soap_api.download.MaStRDownload.additional_data"><code>MaStRDownload.additional_data</code></a>
+for more information on how data is downloaded.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>See list of available technologies in
+<code>open_mastr.soap_api.download.py.MaStRDownload.download_power_plants</code>.</p>
+            </div>
+            <p>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data_type</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Select type of additional data that is to be retrieved. Choose from
+"unit_data", "eeg_data", "kwk_data", "permit_data".</p>
+            </div>
+            <p>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Limit number of units that data is download for. Defaults to the very large number 10**8
+which refers to query data for existing data requests, for example created by
+<code>~.create_additional_data_requests</code>.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>10 ** 8</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>chunksize</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Data is downloaded and inserted into the database in chunks of <code>chunksize</code>.
+Defaults to 1000.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>1000</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="open_mastr.soap_api.mirror.MaStRMirror.retrieve_additional_location_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">retrieve_additional_location_data</span><span class="p">(</span><span class="n">location_type</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">8</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Retrieve extended location data</p>
+<p>Execute additional data requests stored in
+<code>open_mastr.soap_api.orm.AdditionalLocationsRequested</code>.
+See also docs of <code>open_mastr.soap_api.download.py.MaStRDownload.additional_data</code>
+for more information on how data is downloaded.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>location_type</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Select type of location that is to be retrieved. Choose from
+"location_elec_generation", "location_elec_consumption", "location_gas_generation",
+"location_gas_consumption".</p>
+            </div>
+            <p>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Limit number of locations that data is download for. Defaults large number 10**8
+which refers to query data for existing data requests.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>10 ** 8</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>chunksize</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>Data is downloaded and inserted into the database in chunks of <code>chunksize</code>.
+Defaults to 1000.</p>
+            </div>
+            <p>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code>1000</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 <a href="https://reiner-lemoine-institut.de/"  target="_blank" rel="noopener">RLI</a> and <a href="https://fortiss.org"  target="_blank" rel="noopener">fortiss GmbH</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "toc.integrate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
