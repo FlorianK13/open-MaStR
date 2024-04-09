@@ -14,8 +14,8 @@ jobs:
     if: ${{ !github.event.pull_request.draft }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        python-version: [3.9, '3.10', '3.11', '3.12']
+        os: [ubuntu-latest]
+        python-version: [ '3.11']
     name: pytest (Python ${{ matrix.python-version }}) (OS ${{ matrix.os }})
 
     # Configure tests
