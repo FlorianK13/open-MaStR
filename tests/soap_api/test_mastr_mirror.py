@@ -1,10 +1,10 @@
 import datetime
 import pytest
 import random
-import pandas as pd
+import os
 from os.path import join
+from sqlalchemy import create_engine
 
-import pytest
 from open_mastr.soap_api.mirror import MaStRMirror
 from open_mastr.utils import orm
 from open_mastr.utils.config import get_project_home_dir
@@ -30,9 +30,10 @@ DATE = datetime.datetime(2020, 11, 27, 0, 0, 0)
 
 @pytest.fixture
 def mastr_mirror():
-    engine = create_database_engine(
-        "sqlite", join(get_project_home_dir(), "data", "sqlite")
-    )
+    unique_id = os.environ.get('GITHUB_RUN_ID', 'local')
+    sqlite_database_path = join(get_project_home_dir(), "data", "sqlite", f"open-mastr_{unique_id}.db")
+    engine = create_engine(url = f"sqlite:///{sqlite_database_path}")
+    orm.Base.metadata.create_all(engine)
     return MaStRMirror(engine=engine)
 
 
