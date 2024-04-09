@@ -1,5 +1,4 @@
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.schema import MetaData
 from sqlalchemy import (
     Column,
     Integer,
@@ -13,8 +12,8 @@ from sqlalchemy import (
     JSON,
 )
 
-meta = MetaData()
-Base = declarative_base(metadata=meta)
+class Base(DeclarativeBase):
+    pass
 
 
 class ParentAllTables(object):
